@@ -18,56 +18,56 @@ DWORD ShieldMaxShow = 1;
 DWORD StaminaMaxShow = 1;
 void cHookHP_Show()
 {
-	//SET PUSH TO LIFE
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
+	//SET PUSH TO LIFE — expand mov ax,[ecx+0x22] to mov eax,[ecx+0x22];nop at 0x59F80E
+	SetByte( (PVOID) 0x0059F80E, 0x8B);
+	SetByte( (PVOID) 0x0059F80F, 0x41);
+	SetByte( (PVOID) 0x0059F810, 0x22);
+	SetByte( (PVOID) 0x0059F811, 0x90);
 
-	//SET PUSH TO LIFE 2
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	//SET PUSH TO Mana
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
+	//SET PUSH TO LIFE 2 — expand mov dx,[ecx+0x26] to mov edx,[ecx+0x26];nop at 0x59F80A
+	SetByte( (PVOID) 0x0059F80A, 0x8B);
+	SetByte( (PVOID) 0x0059F80B, 0x51);
+	SetByte( (PVOID) 0x0059F80C, 0x26);
+	SetByte( (PVOID) 0x0059F80D, 0x90);
+	//SET PUSH TO Mana — expand mov ax,[ecx+0x24] to mov eax,[ecx+0x24];nop at 0x59F82E
+	SetByte( (PVOID) 0x0059F82E, 0x8B);
+	SetByte( (PVOID) 0x0059F82F, 0x41);
+	SetByte( (PVOID) 0x0059F830, 0x24);
+	SetByte( (PVOID) 0x0059F831, 0x90);
 
-	//SET PUSH TO Mana 2
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	////Stamina Coordinats
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	////SD  Coordinats
-	SetByte( (PVOID) 0x00000000, 0x00);//
-	SetByte( (PVOID) 0x00000000, 0x00);//
+	//SET PUSH TO Mana 2 — expand mov dx,[ecx+0x28] to mov edx,[ecx+0x28];nop at 0x59F828
+	SetByte( (PVOID) 0x0059F828, 0x8B);
+	SetByte( (PVOID) 0x0059F829, 0x51);
+	SetByte( (PVOID) 0x0059F82A, 0x28);
+	SetByte( (PVOID) 0x0059F82B, 0x90);
+	////Stamina Coordinats — adjust Stamina bar X position bytes at push 0x43BD8000 (0x59FDC9)
+	SetByte( (PVOID) 0x0059FDCB, 0x80);
+	SetByte( (PVOID) 0x0059FDCC, 0xBD);
+	////SD  Coordinats — adjust SD bar X position bytes at push 0x43AE0000 (0x59FCEB)
+	SetByte( (PVOID) 0x0059FCED, 0x00);//
+	SetByte( (PVOID) 0x0059FCEE, 0xAE);//
 	//XZ
-	//SET PUSH TO Stamina
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
+	//SET PUSH TO Stamina — expand mov ax,[ecx+0x42] to mov eax,[ecx+0x42];nop at 0x59EB2C
+	SetByte( (PVOID) 0x0059EB2C, 0x8B);
+	SetByte( (PVOID) 0x0059EB2D, 0x41);
+	SetByte( (PVOID) 0x0059EB2E, 0x42);
+	SetByte( (PVOID) 0x0059EB2F, 0x90);
 
-	//SET PUSH TO Shield
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
-	SetByte( (PVOID) 0x00000000, 0x00);
+	//SET PUSH TO Shield — expand mov ax,[ecx+0x2C] to mov eax,[ecx+0x2C];nop at 0x59EE9C
+	SetByte( (PVOID) 0x0059EE9C, 0x8B);
+	SetByte( (PVOID) 0x0059EE9D, 0x41);
+	SetByte( (PVOID) 0x0059EE9E, 0x2C);
+	SetByte( (PVOID) 0x0059EE9F, 0x90);
 	
 	
-	SetRange((LPVOID)0x00000000, 6, ASM::NOP);		
-    SetJmp((LPVOID)0x00000000, LoadShieldShow);		
-	SetRange((LPVOID)0x00000000, 6, ASM::NOP);		
-    SetJmp((LPVOID)0x00000000, LoadStaminaShow);	
-	SetRange((LPVOID)0x00000000, 4, ASM::NOP);		
-    SetJmp((LPVOID)0x00000000, LoadLifeShow);		
-	SetRange((LPVOID)0x00000000, 4, ASM::NOP);		
-    SetJmp((LPVOID)0x00000000, LoadManaShow);		
+	SetRange((LPVOID)0x0059ECFF, 6, ASM::NOP);		
+    SetJmp((LPVOID)0x0059ECFF, LoadShieldShow);		
+	SetRange((LPVOID)0x0059F06F, 6, ASM::NOP);		
+    SetJmp((LPVOID)0x0059F06F, LoadStaminaShow);	
+	SetRange((LPVOID)0x005A095D, 4, ASM::NOP);		
+    SetJmp((LPVOID)0x005A095D, LoadLifeShow);		
+	SetRange((LPVOID)0x005A0982, 4, ASM::NOP);		
+    SetJmp((LPVOID)0x005A0982, LoadManaShow);		
 }
 
 //---------------------------------------------------------------------------
@@ -123,12 +123,12 @@ void GCGetRecupationCharacter(PMSG_SEND_CHARACTER_INFO * gObj)
 	sprintf(msg2, "Mana: %u / %u", gObj->Mana,gObj->MaxMana);
 	sprintf(msg3, "Shield: %u / %u", gObj->SD,gObj->MaxSD);
 	sprintf(msg4, "Stamina: %u / %u", gObj->Stanina,gObj->MaxStamina);
-	memcpy((char*)0x00000000,msg,29);//63f81
-	memcpy((char*)0x00000000,msg2,29);
-	memcpy((char*)0x00000000,msg3,29);
-	memcpy((char*)0x00000000,msg4,29);
-	//SetByte( (PVOID) 0x00000000,LifeShowPercent);
-	//SetByte( (PVOID) 0x00000000,ManaShowPercent);
+	memcpy((char*)0x007895F0,msg,29);//Life text buffer (.data section)
+	memcpy((char*)0x00789610,msg2,29);//Mana text buffer (.data section)
+	memcpy((char*)0x00789630,msg3,29);//Shield text buffer (.data section)
+	memcpy((char*)0x00789650,msg4,29);//Stamina text buffer (.data section)
+	//SetByte( (PVOID) 0x005A095D,LifeShowPercent);
+	//SetByte( (PVOID) 0x005A0982,ManaShowPercent);
 
 }
 
@@ -148,8 +148,8 @@ void __declspec(naked) LoadLifeShow()
     _asm
     {
 	   push HPCurrentShow
-       mov MovHP_OffSet, 0x000000000
-       jmp MovHP_OffSet //
+       mov MovHP_OffSet, 0x005A0962
+       jmp MovHP_OffSet // return after hooked mov ax,[ecx+0x22]+push eax
 
     }
 }
@@ -158,8 +158,8 @@ void __declspec(naked) LoadManaShow()
     _asm
     {
 	   push ManaCurrentShow
-       mov MovMana_OffSet, 0x00000000
-       jmp MovMana_OffSet //
+       mov MovMana_OffSet, 0x005A0987
+       jmp MovMana_OffSet // return after hooked mov dx,[eax+0x24]+push edx
 
     }
 }
@@ -169,9 +169,9 @@ void __declspec(naked) LoadStaminaShow()
     _asm
     {
 	   push StaminaCurrentShow
-	   push 0x00000000
-       mov MovStamina_OffSet, 0x00000000
-       jmp MovStamina_OffSet //
+	   push 0x43E98000
+       mov MovStamina_OffSet, 0x0059F075
+       jmp MovStamina_OffSet // return after hooked push esi+push 0x43E98000
     }
 }
 void __declspec(naked) LoadShieldShow()
@@ -180,9 +180,9 @@ void __declspec(naked) LoadShieldShow()
     {
 		
 	   push ShieldCurrentShow
-	   push 0x00000000
-       mov MovShield_OffSet, 0x00000000
-       jmp MovShield_OffSet //
+	   push 0x43E98000
+       mov MovShield_OffSet, 0x0059ED05
+       jmp MovShield_OffSet // return after hooked push esi+push 0x43E98000
     }
 }
 //---------------------------------------------------------------------------
@@ -192,11 +192,11 @@ void cLoadLifeManaFix()
 {
 
 	cHookHP_Show();
-	SetOp((LPVOID)0x00000000, (LPVOID)DrawCircle, ASM::CALL);	// - hp  // ok
-	SetOp((LPVOID)0x00000000, (LPVOID)DrawCircle, ASM::CALL);	// - hp  // ok
-	SetOp((LPVOID)0x00000000, (LPVOID)DrawCircle, ASM::CALL);	// - mana  // ok
-	SetOp((LPVOID)0x00000000, (LPVOID)DrawCircle, ASM::CALL);   // - SD // OK
-	SetOp((LPVOID)0x00000000, (LPVOID)DrawCircle, ASM::CALL);   // - Stamina // OK
+	SetOp((LPVOID)0x0059FA5E, (LPVOID)DrawCircle, ASM::CALL);	// - hp (model 0xEA/0xF7) // ok
+	SetOp((LPVOID)0x0059FA5E, (LPVOID)DrawCircle, ASM::CALL);	// - hp (same call, handles both 0xEA and 0xF7) // ok
+	SetOp((LPVOID)0x0059FB67, (LPVOID)DrawCircle, ASM::CALL);	// - mana (model 0xEB) // ok
+	SetOp((LPVOID)0x0059ECF0, (LPVOID)DrawCircle, ASM::CALL);   // - SD (model 0x101) // OK
+	SetOp((LPVOID)0x0059F060, (LPVOID)DrawCircle, ASM::CALL);   // - Stamina (model 0x76A) // OK
 	
 	
 }
